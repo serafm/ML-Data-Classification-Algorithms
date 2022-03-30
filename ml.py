@@ -8,10 +8,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 import csv
 import pandas as pd
-n_neighbors = 40
 
-# import some data to play with
-#iris = train_datasets.load_iris()
+
 trainFile = open('train.csv')
 csvreaderTrain = csv.reader(trainFile)
 train_dataset=pd.read_csv(trainFile)
@@ -27,7 +25,7 @@ train_dataset = train_dataset.replace(to_replace="Ghost", value=3)
 # y = all the Type names
 y = train_dataset.iloc[:, 6].values
 
-#print("TRAIN DATASET")
+#TRAIN DATASET
 train_dataset = train_dataset.drop(labels="id",axis=1)
 train_dataset = train_dataset.drop(labels="type",axis=1)
 train_dataset = train_dataset.replace(to_replace="clear", value=1/6)
@@ -37,12 +35,7 @@ train_dataset = train_dataset.replace(to_replace="blue", value=4/6)
 train_dataset = train_dataset.replace(to_replace="white", value=5/6)
 train_dataset = train_dataset.replace(to_replace="blood", value=1)
 
-
-#print(train_dataset.head())
-
-#print("\n")
-
-#print("TEST DATASET")
+#TEST DATASET
 test_dataset = test_dataset.drop(labels="id",axis=1)
 test_dataset = test_dataset.replace(to_replace="clear", value=1/6)
 test_dataset = test_dataset.replace(to_replace="green", value=2/6)
@@ -51,11 +44,8 @@ test_dataset = test_dataset.replace(to_replace="blue", value=4/6)
 test_dataset = test_dataset.replace(to_replace="white", value=5/6)
 test_dataset = test_dataset.replace(to_replace="blood", value=1)
 
-#print(test_dataset.head())
-
 
 X_train, X_test, y_train, y_test = train_test_split(train_dataset, y, test_size=0.2)
-
 
 scaler = StandardScaler()
 scaler.fit(X_train)

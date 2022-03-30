@@ -20,6 +20,13 @@ testFile = open('test.csv')
 csvreaderTest = csv.reader(testFile)
 test_dataset=pd.read_csv(testFile)
 
+train_dataset = train_dataset.replace(to_replace="Ghoul", value=1)
+train_dataset = train_dataset.replace(to_replace="Goblin", value=2)
+train_dataset = train_dataset.replace(to_replace="Ghost", value=3)
+
+# y = all the Type names
+y = train_dataset.iloc[:, 6].values
+
 #print("TRAIN DATASET")
 train_dataset = train_dataset.drop(labels="id",axis=1)
 train_dataset = train_dataset.drop(labels="type",axis=1)
@@ -29,9 +36,6 @@ train_dataset = train_dataset.replace(to_replace="black", value=3/6)
 train_dataset = train_dataset.replace(to_replace="blue", value=4/6)
 train_dataset = train_dataset.replace(to_replace="white", value=5/6)
 train_dataset = train_dataset.replace(to_replace="blood", value=1)
-
-y = train_dataset.iloc[:, 4].values
-y=y.astype('int')
 
 
 #print(train_dataset.head())
@@ -47,34 +51,20 @@ test_dataset = test_dataset.replace(to_replace="blue", value=4/6)
 test_dataset = test_dataset.replace(to_replace="white", value=5/6)
 test_dataset = test_dataset.replace(to_replace="blood", value=1)
 
-y_test = test_dataset.iloc[:, 4].values
-y_test=y_test.astype('int')
-
 #print(test_dataset.head())
 
+
+X_train, X_test, y_train, y_test = train_test_split(train_dataset, y, test_size=0.2)
+
+
 scaler = StandardScaler()
-scaler.fit(train_dataset)
-train_dataset = scaler.transform(train_dataset)
-test_dataset = scaler.transform(test_dataset)
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
 
 classifier = neighbors.KNeighborsClassifier(1)
-classifier.fit(train_dataset,y)
+classifier.fit(X_train,y_train)
 
-y_predict = classifier.predict(test_dataset)
+y_predict = classifier.predict(X_test)
 print(classification_report(y_test,y_predict))
 print(confusion_matrix(y_test,y_predict))
-
-#X=train_dataset.iloc[0:,:-1]
-#print(X)
-
-
-
-
-"""""
-h = 0.02  # step size in the mesh
-color_matrix_names=["clear","green","black","blue","white","blood"]
-color_matrix_values = [0.0,0.0,0.0,0.0,0.0,0.0]
-for i in range(6):
-    color_matrix_values[i]=(i+1)/6
-clf=neighbors.KNeighborsClassifier(n_neighbors,"distance")
-print(color_matrix_values)"""""

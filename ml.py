@@ -13,7 +13,7 @@ import pandas as pd
 
 
 # Train dataset
-trainFile = open('train.csv')
+trainFile = open('data/train.csv')
 train_dataset=pd.read_csv(trainFile)
 
 train_dataset = train_dataset.replace(to_replace="Ghoul", value=1)
@@ -21,11 +21,11 @@ train_dataset = train_dataset.replace(to_replace="Goblin", value=2)
 train_dataset = train_dataset.replace(to_replace="Ghost", value=3)
 
 # Test dataset 
-testFile = open('test.csv')
+testFile = open('data/test.csv')
 test_dataset=pd.read_csv(testFile)
 
 # Sample dataset 
-sampleFile = open('sample_submission.csv')
+sampleFile = open('data/sample_submission.csv')
 sample_dataset=pd.read_csv(sampleFile)
 sample_dataset = sample_dataset.replace(to_replace="Ghost", value=3)
 

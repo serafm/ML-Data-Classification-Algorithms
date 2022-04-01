@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split
 
 
 # Read the csv files
-train_data = pd.read_csv('train.csv')
-test_data  = pd.read_csv('test.csv')
-sample_data = pd.read_csv('sample_submission.csv')
+train_data = pd.read_csv('data/train.csv')
+test_data  = pd.read_csv('data/test.csv')
+sample_data = pd.read_csv('data/sample_submission.csv')
 
 # Replace type label from Train data with numbers 0,1,2 (NOT NECESSARY)
 train_data = train_data.replace(to_replace="Ghoul", value=0)

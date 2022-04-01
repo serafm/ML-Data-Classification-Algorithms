@@ -19,15 +19,6 @@ train_dataset = train_dataset.replace(to_replace="Ghoul", value=1)
 train_dataset = train_dataset.replace(to_replace="Goblin", value=2)
 train_dataset = train_dataset.replace(to_replace="Ghost", value=3)
 
-# Sample dataset 
-sampleFile = open('sample_submission.csv')
-csvreaderSample = csv.reader(sampleFile)
-sample_dataset=pd.read_csv(sampleFile)
-
-sample_dataset = sample_dataset.replace(to_replace="Ghoul", value=1)
-sample_dataset = sample_dataset.replace(to_replace="Goblin", value=2)
-sample_dataset = sample_dataset.replace(to_replace="Ghost", value=3)
-
 # Test dataset 
 testFile = open('test.csv')
 csvreaderTest = csv.reader(testFile)
@@ -35,9 +26,6 @@ test_dataset=pd.read_csv(testFile)
 
 # y = all the Type names
 y = train_dataset.iloc[:, 6].values
-
-# sample = all the Type names of sample file
-sample_Label = sample_dataset.iloc[:, 1].values
 
 #TRAIN DATASET
 train_dataset = train_dataset.drop(labels="id",axis=1)
@@ -91,6 +79,6 @@ print("\n                         " + '\x1b[6;30;42m' + "TEST STATS"  + '\x1b[0m
 #classifier.fit(train_dataset,y)
 
 test_predict = classifier.predict(test_dataset)
-print(classification_report(sample_Label,test_predict))
-print(confusion_matrix(sample_Label,test_predict))
+print(classification_report(y,test_predict))
+print(confusion_matrix(y,test_predict))
 

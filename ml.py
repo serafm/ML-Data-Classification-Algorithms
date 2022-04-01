@@ -10,9 +10,10 @@ from sklearn.metrics import classification_report, confusion_matrix
 import csv
 import pandas as pd
 
+
+
 # Train dataset
 trainFile = open('train.csv')
-csvreaderTrain = csv.reader(trainFile)
 train_dataset=pd.read_csv(trainFile)
 
 train_dataset = train_dataset.replace(to_replace="Ghoul", value=1)
@@ -21,11 +22,19 @@ train_dataset = train_dataset.replace(to_replace="Ghost", value=3)
 
 # Test dataset 
 testFile = open('test.csv')
-csvreaderTest = csv.reader(testFile)
 test_dataset=pd.read_csv(testFile)
+
+# Sample dataset 
+sampleFile = open('sample_submission.csv')
+sample_dataset=pd.read_csv(sampleFile)
+sample_dataset = sample_dataset.replace(to_replace="Ghost", value=3)
 
 # y = all the Type names
 y = train_dataset.iloc[:, 6].values
+
+# sample = all the Type names
+sample = sample_dataset.iloc[:, 1].values
+
 
 #TRAIN DATASET
 train_dataset = train_dataset.drop(labels="id",axis=1)
@@ -51,8 +60,7 @@ X_train, X_test, y_train, y_test = train_test_split(train_dataset, y, test_size=
 
 
 # TRAIN STATISTICS
-print("\n                         " + '\x1b[6;30;42m' + "TRAINING STATS"  + '\x1b[0m' + "\n")
-
+print("\n                         " + '\x1b[6;30;42m' + "TRAIN STATS"  + '\x1b[0m' + "\n")
 scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
@@ -61,24 +69,21 @@ X_test = scaler.transform(X_test)
 classifier = neighbors.KNeighborsClassifier(5)
 classifier.fit(X_train,y_train)
 
-#y_predict = classifier.predict(X_test)
-#print(classification_report(y_test,y_predict))
-#print(confusion_matrix(y_test,y_predict))
+train_predict = classifier.predict(X_test)
+
+
 
 # TEST STATISTICS
 print("\n                         " + '\x1b[6;30;42m' + "TEST STATS"  + '\x1b[0m' + "\n")
 
-#scaler = StandardScaler()
-#scaler.fit(test_dataset)
-#test_dataset = scaler.transform(test_dataset)
-
-#scaler.fit(train_dataset)
-#train_dataset = scaler.transform(train_dataset)
-
-#classifier = neighbors.KNeighborsClassifier(40)
-#classifier.fit(train_dataset,y)
 
 test_predict = classifier.predict(test_dataset)
-print(classification_report(y,test_predict))
-print(confusion_matrix(y,test_predict))
+print(classifier.score(sample,test_predict))
+
+"""
+new_csv = pd.DataFrame()
+new_csv["id"] = test_index
+new_csv["type"] = final_pred
+new_csv.to_csv("submission.csv",index=False)"""
+
 

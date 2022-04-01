@@ -9,6 +9,16 @@ train_data = pd.read_csv('train.csv')
 test_data  = pd.read_csv('test.csv')
 sample_data = pd.read_csv('sample_submission.csv')
 
+# Replace type label from Train data with numbers 0,1,2 (NOT NECESSARY)
+train_data = train_data.replace(to_replace="Ghoul", value=0)
+train_data = train_data.replace(to_replace="Goblin", value=1)
+train_data = train_data.replace(to_replace="Ghost", value=2)
+
+# Replace type label from Sample data with numbers 0,1,2 (NOT NECESSARY)
+sample_data = sample_data.replace(to_replace="Ghoul", value=0)
+sample_data = sample_data.replace(to_replace="Goblin", value=1)
+sample_data = sample_data.replace(to_replace="Ghost", value=2)
+
 # Get label name: Type from Sample data and Train data 
 expected_output = sample_data['type']
 tlabel = train_data['type']
@@ -27,9 +37,9 @@ train_data = train_data.replace(to_replace="blood", value=1)
 # Set data for train and test from the Train data 
 x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.5,random_state=0)
 
-# KNN Algorithm with k neighbors
-k = 3
-knn = neighbors.KNeighborsClassifier(k)
+# KNN Algorithm with Euclidean Distance
+k = 1
+knn = neighbors.KNeighborsClassifier(k,p=2)
 knn.fit(x_train,y_train)
 
 # Prediction for Train data
@@ -63,7 +73,7 @@ score = f1_score(expected_output, test_prediction, average='weighted')
 # Print accuracy and f1 score of Test data
 print("\n                  " + '\x1b[6;30;42m' + "Test Accuracy and f1 score"  + '\x1b[0m' + "\n")
 print("Accuracy= ", acc)
-print("f1 score= ", score)
+print("f1 score(weighted)= ", score)
 
 # Make a csv file with id and type labels for Test prediction data
 new_csv = pd.DataFrame()

@@ -1,9 +1,9 @@
 import pandas as pd
-import numpy as np
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
 
 
 sc = StandardScaler()
@@ -59,6 +59,7 @@ x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0
 #Initializing the MLPClassifier
 k = 100
 classifier = MLPClassifier(hidden_layer_sizes=(k), max_iter=300, activation = 'logistic', solver='sgd', random_state=1)
+
 
 #Fitting the training data to the network
 classifier.fit(x_train, y_train)

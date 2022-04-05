@@ -38,7 +38,7 @@ train_data = train_data.replace(to_replace="blood", value=1)
 x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.5,random_state=0)
 
 # KNN Algorithm with Euclidean Distance
-k = 1
+k = 5
 knn = neighbors.KNeighborsClassifier(k,p=2)
 knn.fit(x_train,y_train)
 
@@ -76,7 +76,17 @@ print("Accuracy= ", acc)
 print("f1 score(weighted)= ", score)
 
 # Make a csv file with id and type labels for Test prediction data
+
 new_csv = pd.DataFrame()
 new_csv["id"] = test_index
 new_csv["type"] = test_prediction
-new_csv.to_csv("Test Report.csv", index=False)
+new_csv.to_csv("TestReport.csv", index=False)
+
+# Replace type label from Sample data with numbers 0,1,2 (NOT NECESSARY)
+output = pd.read_csv('TestReport.csv')
+output = output.replace(to_replace=0, value="Ghoul")
+output = output.replace(to_replace=1, value="Goblin")
+output = output.replace(to_replace=2, value="Ghost")
+
+new_csv = output
+new_csv.to_csv("TestReport.csv", index=False)

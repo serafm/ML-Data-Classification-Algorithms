@@ -38,8 +38,8 @@ train_data = train_data.replace(to_replace="blood", value=1)
 x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.5,random_state=0)
 
 # KNN Algorithm with Euclidean Distance
-k = 5
-knn = neighbors.KNeighborsClassifier(k,p=2)
+k = 10
+knn = neighbors.KNeighborsClassifier(k, weights="distance")
 knn.fit(x_train,y_train)
 
 # Prediction for Train data

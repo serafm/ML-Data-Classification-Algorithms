@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn import neighbors
 from sklearn.metrics import accuracy_score, classification_report, f1_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 
 # Read the csv files
@@ -34,8 +35,9 @@ train_data = train_data.replace(to_replace="blue", value=4/6)
 train_data = train_data.replace(to_replace="white", value=5/6)
 train_data = train_data.replace(to_replace="blood", value=1)
 
+
 # Set data for train and test from the Train data 
-x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.5,random_state=0)
+x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.25,random_state=0)
 
 # KNN Algorithm with Euclidean Distance
 k = 10
@@ -76,11 +78,10 @@ print("Accuracy= ", acc)
 print("f1 score(weighted)= ", score)
 
 # Make a csv file with id and type labels for Test prediction data
-
 new_csv = pd.DataFrame()
 new_csv["id"] = test_index
 new_csv["type"] = test_prediction
-new_csv.to_csv("TestReport.csv", index=False)
+new_csv.to_csv("TestReportKNN.csv", index=False)
 
 # Replace type label from Sample data with numbers 0,1,2 (NOT NECESSARY)
 output = pd.read_csv('TestReport.csv')
@@ -89,4 +90,4 @@ output = output.replace(to_replace=1, value="Goblin")
 output = output.replace(to_replace=2, value="Ghost")
 
 new_csv = output
-new_csv.to_csv("TestReport.csv", index=False)
+new_csv.to_csv("TestReportKNN.csv", index=False)

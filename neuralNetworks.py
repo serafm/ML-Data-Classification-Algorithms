@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 # Read the csv files
 train_data = pd.read_csv('data/train.csv')
@@ -42,12 +42,19 @@ test_data = test_data.replace(to_replace="blue", value=4/6)
 test_data = test_data.replace(to_replace="white", value=5/6)
 test_data = test_data.replace(to_replace="blood", value=1)
 
+
+#Rescaling features age, trestbps, chol, thalach, oldpeak.
+scaler = MinMaxScaler()
+features = [['bone_length', 'rotting_flesh', 'hair_length', 'has_soul', 'color']]
+for feature in features:
+    train_data[feature] = scaler.fit_transform(train_data[feature])
+
 # Set data for train and test from the Train data 
 x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.2,random_state=1)
 
 #Initializing the MLPClassifier
 k = 100
-classifier = MLPClassifier(hidden_layer_sizes=(k), max_iter=300, activation = 'logistic', solver='sgd', alpha=0.0001, random_state=1)
+classifier = MLPClassifier(hidden_layer_sizes=(k), max_iter=300, activation = 'tanh', solver='sgd', alpha=0.0001, random_state=1)
 
 #Fitting the training data to the network
 classifier.fit(x_train, y_train)
@@ -88,7 +95,7 @@ new_csv.to_csv("TestReportNeuralNetwork.csv", index=False)
 #Initializing the MLPClassifier
 k1 = 200
 k2 = 100
-classifierB = MLPClassifier(hidden_layer_sizes=(k1,k2), max_iter=300, activation = 'logistic', solver='sgd', random_state=1)
+classifierB = MLPClassifier(hidden_layer_sizes=(k1,k2), max_iter=300, activation = 'tanh', solver='sgd', random_state=1)
 
 #Fitting the training data to the network
 classifierB.fit(x_train, y_train)

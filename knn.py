@@ -28,6 +28,20 @@ train_data = train_data.replace(to_replace="blue", value=4/6)
 train_data = train_data.replace(to_replace="white", value=5/6)
 train_data = train_data.replace(to_replace="blood", value=1)
 
+# Set test_index = id (we are going to use it later to create the csv file)
+test_index = test_data['id']
+
+# Remove lable: id from Test data
+test_data.drop('id',1,inplace=True)
+
+# Replace Test data colors with numbers between [0,1]
+test_data = test_data.replace(to_replace="clear", value=1/6)
+test_data = test_data.replace(to_replace="green", value=2/6)
+test_data = test_data.replace(to_replace="black", value=3/6)
+test_data = test_data.replace(to_replace="blue", value=4/6)
+test_data = test_data.replace(to_replace="white", value=5/6)
+test_data = test_data.replace(to_replace="blood", value=1)
+
 # Set data for train and test from the Train data 
 x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.25,random_state=0)
 
@@ -43,19 +57,6 @@ prediction = knn.predict(x_test)
 print("\n                         " + '\x1b[6;30;42m' + "Train Statistics"  + '\x1b[0m' + "\n")
 print(classification_report(prediction,y_test))
 
-# Set test_index = id (we are going to use it later to create the csv file)
-test_index = test_data['id']
-
-# Remove lable: id from Test data
-test_data.drop('id',1,inplace=True)
-
-# Replace Test data colors with numbers between [0,1]
-test_data = test_data.replace(to_replace="clear", value=1/6)
-test_data = test_data.replace(to_replace="green", value=2/6)
-test_data = test_data.replace(to_replace="black", value=3/6)
-test_data = test_data.replace(to_replace="blue", value=4/6)
-test_data = test_data.replace(to_replace="white", value=5/6)
-test_data = test_data.replace(to_replace="blood", value=1)
 
 # Prediction for Test data
 test_prediction = knn.predict(test_data)

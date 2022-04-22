@@ -1,10 +1,7 @@
-import numpy as np
 import pandas as pd
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
     
 # Read the csv files

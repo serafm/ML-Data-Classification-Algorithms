@@ -1,7 +1,6 @@
-from sklearn.metrics import accuracy_score, classification_report, f1_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.svm import LinearSVC
 

@@ -55,8 +55,12 @@ prediction = knn.predict(x_test)
 
 # Print the statistics from training
 print("\n                         " + '\x1b[6;30;42m' + "Train Statistics"  + '\x1b[0m' + "\n")
-print(classification_report(prediction,y_test))
+#print(classification_report(prediction,y_test))
 
+acc = accuracy_score(prediction, y_test)
+score = f1_score(prediction, y_test, average='weighted')
+print("Accuracy=", acc)
+print("F1 score=", score)
 
 # Prediction for Test data
 test_prediction = knn.predict(test_data)

@@ -96,7 +96,7 @@ for C in C_2d_range:
         svm_gaussian.fit(x_train,y_train)
         classifiers.append(svm_gaussian)
 
-train_pred_gaussian = classifiers[6].predict(x_test)
+train_pred_gaussian = classifiers[8].predict(x_test)
 
 #svm_gaussian = SVC(kernel='rbf', decision_function_shape = "ovr", C=10, gamma=0.5)
 
@@ -113,7 +113,7 @@ print("Accuracy= ", acc_gaussian)
 print("f1 score(weighted)= ", score_gaussian)
 
 #Predicting y for x_test
-test_pred_gaussian = classifiers[6].predict(test_data)
+test_pred_gaussian = classifiers[8].predict(test_data)
 
 # Make a csv file with id and type labels for Test prediction data
 new_csv = pd.DataFrame()

@@ -33,8 +33,9 @@ train_data = train_data.replace(to_replace="blue", value=4)
 train_data = train_data.replace(to_replace="white", value=5)
 train_data = train_data.replace(to_replace="blood", value=6)
 
+
 # Set data for train and test from the Train data 
-x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.25,random_state=0)
+x_train,x_test,y_train,y_test = train_test_split(train_data,tlabel,test_size = 0.19,random_state=0)
 
 # Set test_index = id (we are going to use it later to create the csv file)
 test_index = test_data['id']
@@ -74,7 +75,7 @@ class NaiveBayesClassifier():
               
         return self.mean, self.var
     
-    def gaussian_density(self, class_idx, x):     
+    def gaussian_density(self, class_idx, x):
         '''
         calculate probability from gaussian density function (normally distributed)
         we will assume that probability of specific target value given specific class is normally distributed 
@@ -89,19 +90,27 @@ class NaiveBayesClassifier():
         prob = numerator / denominator
         return prob
     
-    def multinomial_distribution(self, class_idx, x):
+    def multinomial_distribution(self, x):
         md = multinomial(6, [1/6, 1/6, 1/6, 1/6, 1/6, 1/6])
-        p = md.pmf([1, 2, 3, 4, 5, 6])
+        p = md.pmf(x)
     
     def calc_posterior(self, x):
         posteriors = []
+        
 
         # calculate posterior probability for each class
         for i in range(self.count):
             prior = np.log(self.prior[i]) ## use the log to make it more numerically stable
-            conditional = np.sum(np.log(self.gaussian_density(i, x))) # use the log to make it more numerically stable
+            
+            if i < 4: 
+                conditional = np.sum(np.log(self.gaussian_density(i, x))) # use the log to make it more numerically stable
+            else:
+                conditional = self.multinomial_distribution(x.iloc[:,4])
+            
             posterior = prior + conditional
             posteriors.append(posterior)
+            
+                        
         # return class with highest posterior probability
         return self.classes[np.argmax(posteriors)]
      
@@ -158,6 +167,24 @@ print("\n")
 print("TRAIN Naive Bayes classifier")
 print("Accuracy= ", train_acc)
 print("f1 score(weighted)= ", train_f1score)
+
+
+predict_test = nbc.predict(test_data)
+
+# Make a csv file with id and type labels for Test prediction data
+new_csv = pd.DataFrame()
+new_csv["id"] = test_index
+new_csv["type"] = predict_test
+new_csv.to_csv("TestReportNaiveBayes.csv", index=False)
+
+# Replace type label from Sample data with numbers 0,1,2 (NOT NECESSARY)
+output = pd.read_csv('TestReportNaiveBayes.csv')
+output = output.replace(to_replace=0, value="Ghoul")
+output = output.replace(to_replace=1, value="Goblin")
+output = output.replace(to_replace=2, value="Ghost")
+
+new_csv = output
+new_csv.to_csv("TestReportNaiveBayes.csv", index=False)
 
 
 
